@@ -4,15 +4,15 @@ import numeral from 'numeral';
 
 const casesTypeColors = {
   cases: {
-    multiplier: 800,
+    multiplier: 400,
     option: { color:"#cc1034", fillColor: "#cc1034" },
   },
   recovered: {
-    multiplier: 1200,
+    multiplier: 600,
     option: { color:"#7dd71d", fillColor: "#7dd71d" },
   },
   deaths: {
-    multiplier: 2000,
+    multiplier: 1800,
     option: { color:"#ff6c47", fillColor: "#ff6c47" }
   },
 };
