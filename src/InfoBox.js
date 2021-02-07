@@ -2,18 +2,21 @@ import React from 'react'
 import { Card, CardContent, Typography} from '@material-ui/core';
 import './InfoBox.css'
 
-function InfoBox({ title, cases, isRed, active, total, ...props}) {
+function InfoBox({ title, cases, isRed, active, theme, total, ...props}) {
 	return (
 		<Card className={`infoBox 
 			${active && "infoBox--selected"}
-			${isRed && "infoBox--red"}`} 
+			${isRed && "infoBox--red"}
+			${(theme==='dark') && "infoBox--dark"}
+			`} 
 			onClick={props.onClick}>
 			<CardContent>
-				 <Typography className='infoBox__title' color='textSecondary'>
+				 <Typography color='textSecondary' className={`infoBox__title' ${theme==='dark' && "infoBox__title--dark"}`} >
 				 	 {title}
 				 </Typography>
-				 <h2 className={`infoBox__cases ${!isRed && "infoBox__cases--green"}`}>{cases}</h2>
-				 <Typography className='infoBox__total' color='textSecondary'>
+				 <h2 className={`infoBox__cases ${!isRed && "infoBox__cases--green"}
+				 ${theme==='dark' && "infoBox__cases--dark"}`}>{cases}</h2>
+				 <Typography className={`infoBox__total ${theme==='dark' && "infoBox__title--dark"}`} color='textSecondary'>
 				 	{total} Total
 				 </Typography>
 			</CardContent>

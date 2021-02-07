@@ -9,14 +9,15 @@ function ChangeMap({ center, zoom }) {
   return null;
 }
 
-function Map({countries, casesType, center, zoom}) {
-	console.log(casesType)
+function Map({countries, casesType, center, zoom, theme}) {
+	const URL = theme==='light'?"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+		:'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png';
 	return (
-		<div className='map'>
+		<div className={`map ${theme==='dark' && "map--dark"} `}>
 			<MapContainer  scrollWheelZoom={false}>
 				<ChangeMap center={center} zoom={zoom} />
 				<TileLayer
-					url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+					url={URL}
           			attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           			/>
           		{showDataOnMap(countries, casesType)}

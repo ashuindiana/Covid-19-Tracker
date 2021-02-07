@@ -11,6 +11,10 @@ body {
   padding: 20px;
 }
 
+.app--dark {
+  background-color: #212121 ;
+}
+
 .app__header {
   display: flex;
   align-items: center;
@@ -20,11 +24,25 @@ body {
 
 .app__dropdown {
   background-color: white; 
+  border-radius:30px;
+}
+
+.app__dropdown--dark {
+  background-color: #343a40; 
+}
+
+.app__select--dark {
+  background-color: #343a40 !important;
+  color: #e3e3e4 !important;
 }
 
 .app__header >h1 {
   color:#fc3c3c;
   font-size: 2rem;
+}
+
+.app__header--dark > h1 {
+  color: #e3e3e4;
 }
 
 .app__left {
@@ -33,7 +51,7 @@ body {
 
 .app__stats {
   display: flex;
-  justify-content: space-between;;
+  justify-content: space-between;
 }
 
 .app__right {
@@ -59,4 +77,21 @@ body {
   .app {
     flex-direction: column;
   }
+}
+
+.app__left--dark {
+  background-color: #212529  ;
+
+}
+
+.app__right--dark {
+  background-color: #141414;
+}
+
+.card--dark {
+  background-color: #141414;          
+}
+
+.card--dark> h3{
+  color:#e3e3e4;
 }

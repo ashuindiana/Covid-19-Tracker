@@ -13,7 +13,11 @@ import './App.css';
 import {sortData, prettyPrintStat} from './utils';
 import LineGraph from './LineGraph';
 import "leaflet/dist/leaflet.css";
-
+import { ThemeProvider } from 'styled-components';
+import { lightTheme, darkTheme } from './Theme';
+import { GlobalStyles } from './Globals';
+import Toggle from './Toggle.js';
+import { useDarkMode } from './useDarkMode';
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -25,6 +29,8 @@ function App() {
   const [mapZoom, setMapZoom] = useState(3);
   const [mapCountries, setMapCountries] = useState([]);
   const [casesType, setCasesType] = useState('cases');
+  const [theme, toggleTheme, componentMounted] = useDarkMode();
+  const themeMode = theme === 'light' ? lightTheme : darkTheme;
 
   useEffect(() => {
       fetch('https://disease.sh/v3/covid-19/all')
@@ -76,15 +82,26 @@ function App() {
     })
   };
 
+  if (!componentMounted) {
+    return <div />
+  };
+
   return (
-    <div className="app">
-      <div className="app__left">
-        <div className="app__header">
+    <div className={`app ${theme==='dark' && "app--dark"}`}>
+      <div className={`app__left ${theme==='dark' && "app__left--dark"}`}>
+        <div className={`app__header ${theme==='dark' && "app__header--dark"}`}>
           <h1>Covid-19 Tracker</h1>
-          <FormControl className="app__dropdown">
+          <ThemeProvider theme={themeMode}>
+            <>
+              <GlobalStyles />
+              <Toggle theme={theme} toggleTheme={toggleTheme} />
+            </>
+          </ThemeProvider>
+          <FormControl className={`app__dropdown ${theme==='dark' && "app__dropdown--dark"}`}>
             <Select variant="outlined"
                     value={country}
-                    onChange={onCountryChange}>
+                    onChange={onCountryChange}
+                    className={`${theme==='dark' && "app__select--dark"}`}>
               <MenuItem value= "worldwide">WorldWide</MenuItem>
               {countries.map(country => {
                 return <MenuItem value={country.value}>{country.name}</MenuItem>
@@ -95,6 +112,7 @@ function App() {
 
         <div className="app__stats">
            <InfoBox 
+           theme={theme}
            isRed
            active={casesType==="cases"}
            onClick={(e) => setCasesType("cases")}
@@ -103,6 +121,7 @@ function App() {
            total={prettyPrintStat(countryInfo.cases)} />
 
             <InfoBox 
+            theme={theme}
             active={casesType==="recovered"}
             onClick={(e) => setCasesType("recovered")}
             title="Recovered" 
@@ -110,6 +129,7 @@ function App() {
             total={prettyPrintStat(countryInfo.recovered)} />
 
            <InfoBox 
+           theme={theme}
            isRed
            active={casesType==="deaths"}
            onClick={(e) => setCasesType("deaths")}
@@ -118,13 +138,13 @@ function App() {
            total={prettyPrintStat(countryInfo.deaths)} />
         </div>
 
-        <Map countries={mapCountries} casesType={casesType} center={mapCenter} zoom={mapZoom}/>
+        <Map countries={mapCountries} casesType={casesType} center={mapCenter} zoom={mapZoom} theme={theme}/>
       
       </div>
-      <Card className="app__right">
-        <CardContent>
+      <Card className={`app__right ${theme==='dark' && "app__right--dark"}`}>
+        <CardContent className={`${theme==='dark' && "card--dark"}`}>
           <h3>Live Cases by country</h3>
-          <Table countries={tableData} />
+          <Table theme={theme} countries={tableData} />
           <h3 className='app__graphTitle'>WorldWide new {casesType}</h3>
           <LineGraph className="app__graph" casesType={casesType}/>
         </CardContent>
